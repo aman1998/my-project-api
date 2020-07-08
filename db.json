@@ -1,0 +1,53 @@
+{
+  "list": [
+    {
+      "id": "xyz",
+      "title": "Nokia",
+      "price": "3434",
+      "category": "Electronics"
+    },
+    {
+      "id": "p-qkWwrWM",
+      "title": "самсунг",
+      "price": "2323",
+      "category": "Электроника"
+    }
+  ],
+  "users": [
+    {
+      "token": "token_bhje73bkj38jlds9",
+      "data": {
+        "id": "fsdu274dHsw",
+        "username": "admin",
+        "password": "1234",
+        "firstname": "John",
+        "lastname": "Smith",
+        "mail": "admin1234@mail.ru",
+        "phone": "+996 555 82 28 37",
+        "isAdmin": false
+      }
+    },
+    {
+      "data": {
+        "image": "avatar"
+      },
+      "token": "token_N7bJ73up_n",
+      "image": "avatar"
+    },
+    {
+      "data": {
+        "firstname": "Amangeldi",
+        "lastname": "Myrzabekov",
+        "username": "aman1998",
+        "password": "1998",
+        "phone": "23",
+        "mail": "33",
+        "image": "",
+        "isAdmin": false,
+        "id": "DG3C75FDo"
+      },
+      "token": "token_uUwy03t4Us",
+      "image": "avatar"
+    }
+  ]
+}
