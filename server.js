@@ -7,6 +7,12 @@ const shortid = require('shortid')
 const cors = require('cors')
 app.use(cors())
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+
+
 const defaultData = require('./defaultData')
 
 app.use(express.json())
@@ -15,6 +21,8 @@ const adapter = new FileSync('db.json')
 const db = low(adapter)
 
 db.defaults(defaultData).write()
+
+//Get запросы
 
 
 app.get('/list', (req, res) => {
@@ -29,37 +37,6 @@ app.get('/list/:id', (req, res) => {
     if (!item) res.status(400).send('Bad Request')
     res.send(item)
 })
-
-app.post('/add', (req, res) => {
-    // if (!req.body.text) return error(res, 400, 'text attribute is required')
-
-    const id = shortid.generate()
-    const addedItem = { id, ...req.body }
-
-    db.get('list').push(addedItem).write()
-    res.send(addedItem)
-})
-
-app.put('/edit/:id', (req, res) => {
-    const { id } = req.params
-    const item = db.get('list').find({ id })
-
-    if (!item.value()) error(res, 404, `Item with id (${id}) not found`)
-
-    item.assign(req.body).write()
-    res.send(item)
-})
-
-app.delete('/delete/:id', (req, res) => {
-    const { id } = req.params
-    const item = db.get('list').find({ id })
-
-    if (!item.value()) error(res, 404, `Item with id (${id}) not found`)
-
-    db.get('list').remove({ id }).write()
-    res.status(200).json('Successful DELETE').end()
-})
-
 
 app.get('/data', (req, res) => {
     const users = db.get('users')
@@ -81,6 +58,27 @@ app.get('/users-list', (req, res) => {
     res.send(users)
 })
 
+// Post запросы
+
+app.post('/add', (req, res) => {
+    // if (!req.body.text) return error(res, 400, 'text attribute is required')
+
+    const id = shortid.generate()
+    const addedItem = { id, ...req.body }
+
+    db.get('list').push(addedItem).write()
+    res.send(addedItem)
+})
+
+app.post('/favorites', (req, res) => {
+    const { idList } = req.body
+    const { id } = req.params
+    const user = db.get('users').find({ id })
+    user.get('data').push({ favoritesList: idList }).write()
+    res.send(user)
+    console.log(idList)
+})
+
 app.post('/login', (req, res) => {
     const { username, password } = req.body
     if (!username) return error(res, 400, 'username attribute is required')
@@ -93,7 +91,7 @@ app.post('/login', (req, res) => {
 
 app.post('/signin', (req, res) => {
     const id = shortid.generate()
-    const { firstname, lastname, username, password, mail, phone, isAdmin, image } = req.body
+    const { firstname, lastname, username, password, mail, phone, isAdmin, image, favorites} = req.body
     if (!firstname) return error(res, 400, 'firstname attribute is required')
     if (!lastname) return error(res, 400, 'lastname attribute is required')
     if (!username) return error(res, 400, 'username attribute is required')
@@ -105,28 +103,67 @@ app.post('/signin', (req, res) => {
     if (existed) return error(res, 400, 'user with this username already exists')
 
     if (!password) return error(res, 400, 'password attribute is required')
-    const data = { firstname, lastname, username, password, phone, mail, image, isAdmin, id }
+    const data = { firstname, lastname, username, password, phone, mail, image, isAdmin, id, favorites}
 
     db.get('users').push({ data, token: `token_${shortid.generate()}` }).write()
     const user = db.get('users').find({ data: { username, password } }).value()
     res.send({ user })
 })
 
+
+// Put запросы
+
+app.put('/edit/:id', (req, res) => {
+    const { id } = req.params
+    const item = db.get('list').find({ id })
+
+    if (!item.value()) error(res, 404, `Item with id (${id}) not found`)
+
+    item.assign(req.body).write()
+    res.send(item)
+})
+
 app.put('/edit-profile/:id', (req, res) => {
     const { id } = req.params
-    const item = db.get('users').find({ data: { id } })
-    const { image } = req.body
-    // const oldData= db.get('users').find( {data: {id, username, lastname, firstname, mail, phone, image, isAdmin}} ).value()
-    // console.log(oldData)
-    // item.assign({data: {image, ...oldData}}).write()
-
-    // if (!item.value()) error(res, 404, `Item with id (${id}) not found`)
-
-    
-    item.assign({ image }).write()
-    res.send(item)
-
+    // нашли юзера по id
+    const user = db.get('users').find({ data: { id } })
+    if (!user) return error(res, 404, 'user not found')
+    // у этого же юзера нашли объект дата и сделали assign к нему
+    user.get('data').assign({ image: req.body.image }).write()
+    res.send(user)
 })
+
+app.put('/edit-profile-info/:id', (req, res) => {
+    const { id } = req.params
+    const {lastname, firstname, mail, phone} = req.body
+    const user = db.get('users').find({ data: { id } })
+    if (!user) return error(res, 404, 'user not found')
+    user.get('data').assign({ lastname, firstname, mail, phone }).write()
+    res.send(user)
+})
+
+app.put('/favoritesList/:id', (req, res) => {
+    const { id } = req.params
+    // нашли юзера по id
+    const user = db.get('users').find({ data: { id } })
+    if (!user) return error(res, 404, 'user not found')
+    // у этого же юзера нашли объект дата и сделали assign к нему
+    user.get('data').assign({ favoritesList: req.body.favoritesList }).write()
+    res.send(user)
+})
+
+// Delete запросы
+
+app.delete('/delete/:id', (req, res) => {
+    const { id } = req.params
+    const item = db.get('list').find({ id })
+
+    if (!item.value()) error(res, 404, `Item with id (${id}) not found`)
+
+    db.get('list').remove({ id }).write()
+    res.status(200).json('Successful DELETE').end()
+})
+
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 

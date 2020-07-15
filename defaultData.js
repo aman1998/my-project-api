@@ -5,6 +5,8 @@ module.exports = {
         title: 'Nokia',
         price: '3434',
         category: 'Electronics',
+        image: '',
+        imagesList: [],
         }
     ],
     users: [
