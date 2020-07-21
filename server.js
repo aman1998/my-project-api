@@ -83,7 +83,7 @@ app.post('/login', (req, res) => {
 
 app.post('/signin', (req, res) => {
     const id = shortid.generate()
-    const { firstname, lastname, username, password, mail, phone, isAdmin, image, favorites} = req.body
+    const { firstname, lastname, username, password, mail, phone, isAdmin, image, favoritesList} = req.body
     if (!firstname) return error(res, 400, 'firstname attribute is required')
     if (!lastname) return error(res, 400, 'lastname attribute is required')
     if (!username) return error(res, 400, 'username attribute is required')
@@ -95,7 +95,7 @@ app.post('/signin', (req, res) => {
     if (existed) return error(res, 400, 'user with this username already exists')
 
     if (!password) return error(res, 400, 'password attribute is required')
-    const data = { firstname, lastname, username, password, phone, mail, image, isAdmin, id, favorites}
+    const data = { firstname, lastname, username, password, phone, mail, image, isAdmin, id, favoritesList}
 
     db.get('users').push({ data, token: `token_${shortid.generate()}` }).write()
     const user = db.get('users').find({ data: { username, password } }).value()
