@@ -1,4 +1,4 @@
-Этот API нужен для данного проекта https://github.com/aman1998/my-project. Этот сервер будет находится на порте 1717.
+Этот API нужен для данного проекта https://github.com/aman1998/my-project. Этот сервер будет находится на порте 1717 или по ссылке https://intense-journey-98977.herokuapp.com/.
 
 ## Необходимые команды
 
