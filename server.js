@@ -55,6 +55,7 @@ app.get('/profile', (req, res) => {
 
 app.get('/users-list', (req, res) => {
     const users = db.get('users')
+    if (!users) return error(res, 403, 'Access is denied')
     res.send(users)
 })
 
@@ -68,15 +69,6 @@ app.post('/add', (req, res) => {
 
     db.get('list').push(addedItem).write()
     res.send(addedItem)
-})
-
-app.post('/favorites', (req, res) => {
-    const { idList } = req.body
-    const { id } = req.params
-    const user = db.get('users').find({ id })
-    user.get('data').push({ favoritesList: idList }).write()
-    res.send(user)
-    console.log(idList)
 })
 
 app.post('/login', (req, res) => {
@@ -142,13 +134,13 @@ app.put('/edit-profile-info/:id', (req, res) => {
     res.send(user)
 })
 
-app.put('/favoritesList/:id', (req, res) => {
+app.put('/favorites/:id', (req, res) => {
     const { id } = req.params
     // нашли юзера по id
     const user = db.get('users').find({ data: { id } })
     if (!user) return error(res, 404, 'user not found')
-    // у этого же юзера нашли объект дата и сделали assign к нему
-    user.get('data').assign({ favoritesList: req.body.favoritesList }).write()
+    // у этого же юзера нашли объект дата где нашли объект favoritesList и сделали пуш к нему
+    user.get('data').get('favoritesList').push(req.body.idList).write()
     res.send(user)
 })
 
