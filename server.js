@@ -102,6 +102,27 @@ app.post('/signin', (req, res) => {
     res.send({ user })
 })
 
+app.post('/registr', (req, res) => {
+    const id = shortid.generate()
+    const { login, mail, password } = req.body
+    const username = login;
+    const firstname = login;
+    const data = {  firstname, mail, password,username, id}
+
+    db.get('users').push({ data, token: `token_${shortid.generate()}` }).write()
+    const user = db.get('users').find({ data: { username, password } }).value()
+    res.send({ user })
+})
+
+app.post('/auth', (req, res) => {
+    const { login, password } = req.body
+    const username = login;
+
+    const user = db.get('users').find({ data: { username, password } }).value()
+    res.send({ user })
+    console.log(user)
+})
+
 
 // Put запросы
 
@@ -155,6 +176,16 @@ app.delete('/delete/:id', (req, res) => {
     db.get('list').remove({ id }).write()
     res.status(200).json('Successful DELETE').end()
 })
+// app.delete('/favorite-delete/:id', (req, res) => {
+//     const { id } = req.params
+//     // нашли юзера по id
+//     const user = db.get('users').find({ data: { id } })
+
+//     if (!user) return error(res, 404, 'user not found')
+
+//     user.get('data').get('favoritesList').remove(req.body.idList).write()
+//     res.status(200).json('Successful DELETE').end()
+// })
 
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
