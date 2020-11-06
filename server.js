@@ -70,6 +70,16 @@ app.post('/add', (req, res) => {
     db.get('list').push(addedItem).write()
     res.send(addedItem)
 })
+app.post('/createLobby', (req, res) => {
+    // if (!req.body.text) return error(res, 400, 'text attribute is required')
+
+    const id = shortid.generate()
+    const addedItem = { id, ...req.body }
+
+    db.get('list').push(addedItem).write()
+    res.send(addedItem)
+    console.log(addedItem)
+})
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body
@@ -162,6 +172,16 @@ app.put('/favorites/:id', (req, res) => {
     if (!user) return error(res, 404, 'user not found')
     // у этого же юзера нашли объект дата где нашли объект favoritesList и сделали пуш к нему
     user.get('data').get('favoritesList').push(req.body.idList).write()
+    res.send(user)
+})
+
+app.put('/player_list/:id', (req, res) => {
+    const { id } = req.params
+    // нашли лобби по id
+    const user = db.get('list').find({ data: { id } })
+    if (!user) return error(res, 404, 'user not found')
+    // у этого же юзера нашли объект дата где нашли объект favoritesList и сделали пуш к нему
+    user.get('player_list').push(req.body.idList).write()
     res.send(user)
 })
 
