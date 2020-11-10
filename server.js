@@ -47,7 +47,7 @@ app.get('/data', (req, res) => {
 })
 
 app.get('/profile', (req, res) => {
-    const token = req.get('X-Auth')
+    const token = req.get('Authorization')
     const profile = db.get('users').find({ token }).value()
     if (!profile) return error(res, 403, 'Access is denied')
     res.send(profile)
@@ -82,11 +82,11 @@ app.post('/createLobby', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    const { username, password } = req.body
-    if (!username) return error(res, 400, 'username attribute is required')
+    const { phone, password } = req.body
+    if (!phone) return error(res, 400, 'phone attribute is required')
     if (!password) return error(res, 400, 'password attribute is required')
 
-    const user = db.get('users').find({ data: { username, password } }).value()
+    const user = db.get('users').find({ data: { phone, password } }).value()
     if (!user) return error(res, 403, 'incorrect login data')
     res.send({ user })
 })
@@ -132,6 +132,7 @@ app.post('/auth', (req, res) => {
     res.send({ user })
     console.log(user)
 })
+
 
 
 // Put запросы

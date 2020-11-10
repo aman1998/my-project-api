@@ -2,10 +2,10 @@
   "list": [
     {
       "id": "Lt8NkJp-m",
-      "title": "Пример223",
-      "name_mode": "Erangel",
-      "priceGame": "50",
-      "priceKill": "15",
+      "name": "Пример223",
+      "map": "Erangel",
+      "price": "50",
+      "kill_award": "15",
       "date": "2020-11-12",
       "time": "17:10",
       "player_count": 0,
@@ -13,10 +13,10 @@
     },
     {
       "id": "BAwirV9Et",
-      "title": "Игра 2",
-      "name_mode": "Miramar",
-      "priceGame": "200",
-      "priceKill": "15",
+      "name": "Игра 2",
+      "map": "Miramar",
+      "price": "200",
+      "kill_award": "15",
       "date": "2020-11-06",
       "time": "11:36",
       "player_count": 0,
@@ -24,10 +24,10 @@
     },
     {
       "id": "eN9IjPp3T",
-      "title": "Милан",
-      "name_mode": "Miramar",
-      "priceGame": "50",
-      "priceKill": "15",
+      "name": "Милан",
+      "map": "Miramar",
+      "price": "50",
+      "kill_award": "15",
       "date": "2020-11-07",
       "time": "16:49",
       "player_count": 0,
@@ -35,10 +35,10 @@
     },
     {
       "id": "tEeCrH9fU",
-      "title": "Пример 5",
-      "name_mode": "Miramar",
-      "priceGame": "100",
-      "priceKill": "15",
+      "name": "Пример 5",
+      "map": "Miramar",
+      "price": "100",
+      "kill_award": "15",
       "date": "2020-11-06",
       "time": "10:10",
       "player_count": 0,
@@ -50,12 +50,12 @@
       "token": "token_bhje73bkj38jlds9",
       "data": {
         "id": "fsdu274dHsw",
-        "username": "admin",
-        "password": "1234",
+        "name": "admin",
+        "password": "123456",
         "firstname": "Admin",
         "lastname": "Adminov",
         "mail": "admin1234@mail.ru",
-        "phone": "+996 555 82 28 37",
+        "phone": "0555822837",
         "isAdmin": true,
         "favoritesList": [
           "gX9uVM90l",
@@ -68,7 +68,7 @@
       "data": {
         "firstname": "Амангельди",
         "lastname": "Мырзабеков",
-        "username": "aman1998",
+        "name": "aman1998",
         "password": "1998",
         "phone": " 555 82 28 37",
         "mail": "34",
@@ -87,7 +87,7 @@
       "data": {
         "firstname": "Amangeldi",
         "lastname": "Myrzabekov",
-        "username": "KGZVER",
+        "name": "KGZVER",
         "password": "1234",
         "phone": "434-43-34-43",
         "mail": "esen@mail.ru",
@@ -139,7 +139,7 @@
       "data": {
         "firstname": "Pubg",
         "password": "123456",
-        "username": "Pubg",
+        "name": "Pubg",
         "id": "wR3MQgS-p"
       },
       "token": "token_A2kIvXfAaW"
@@ -148,7 +148,7 @@
       "data": {
         "firstname": "Aman1998",
         "password": "123456",
-        "username": "Aman1998",
+        "name": "Aman1998",
         "id": "MwMnrkK_f"
       },
       "token": "token_VJS9mhJALd"
@@ -157,7 +157,7 @@
       "data": {
         "firstname": "Amangeldi1998",
         "password": "123456",
-        "username": "Amangeldi1998",
+        "name": "Amangeldi1998",
         "id": "mE3JrzUCx"
       },
       "token": "token_l8iXd8L5en"
@@ -166,10 +166,19 @@
       "data": {
         "firstname": "Amangeldi1998",
         "password": "123456",
-        "username": "Amangeldi1998",
+        "name": "Amangeldi1998",
         "id": "2ff2qmNdE"
       },
       "token": "token_ohQLnOekTE"
+    },
+    {
+      "data": {
+        "firstname": "Джеки Чан",
+        "password": "123456",
+        "name": "Джеки Чан",
+        "id": "CDDLR3_1A"
+      },
+      "token": "token_4M1ZLaKKh"
     }
   ]
 }
